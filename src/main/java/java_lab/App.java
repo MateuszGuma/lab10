@@ -5,7 +5,8 @@ package java_lab;
  *
  */
 //hej
-public class App 
+    //alalal
+public class App
 {
     public static void main( String[] args )
     {
