@@ -3,10 +3,10 @@ package java_lab;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
+import java.util.TreeMap; //TreeMap<K,V>
 
 //Klasa konwertuje liczbe miedzy systemem arabskia a prastarym
-public class Urnfield {
+public class UrnfieldNumber {
 
     //wydaje mi sie że pasuje znaleźć lepsze zabezpieczenie dla urnfieldToArabic
     private static List<String> num = new ArrayList<String>();
@@ -28,7 +28,7 @@ public class Urnfield {
                 return map.get(number);
             }
             return arabicToUrnfield(number - l) + map.get(l);
-        } else throw new IllegalArgumentException();
+        } else throw new IllegalArgumentException("arabicToUrnfield: " + number );
     }
 
 
@@ -43,10 +43,8 @@ public class Urnfield {
             if (number.equals(l)) {
                 return map.get(number);
             }
-            String nn = number.subSequence(1, number.length()).toString();
-            return map.get(l) + urnfieldToArabic(nn);
-        }else throw new IllegalArgumentException();
+            String num = number.subSequence(1, number.length()).toString();
+            return map.get(l) + urnfieldToArabic(num);
+        }else throw new IllegalArgumentException("urnfieldToArabic: " + number );
     }
-
-
 }
