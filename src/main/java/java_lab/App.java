@@ -4,12 +4,35 @@ package java_lab;
  * Hello world!
  *
  */
-//hej
-    //alalal
+
 public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
-    }
+
+        ///Testy
+        Urnfield u = new Urnfield();
+
+        String liczba = "";
+
+        System.out.println( "toUrnfield:");
+        for (int i = 1; i<=29; i++) {
+            System.out.println(i+"\t =\t "+ u.arabicToUrnfield(i));
+        }
+        System.out.println( "toUrnfield2:");
+        for (int i = 1; i<= 29; i++) {
+
+            liczba = u.arabicToUrnfield(i);
+            System.out.println(i+"\t =\t "+ liczba );
+            System.out.println( u.urnfieldToArabic(liczba));
+        }
+
+
+
+
+
+    }// main
+
+
+
 }
