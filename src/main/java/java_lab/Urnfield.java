@@ -7,8 +7,9 @@ import java.util.TreeMap;
 
 //Klasa konwertuje liczbe miedzy systemem arabskia a prastarym
 public class Urnfield {
-    public static List<String> num = new ArrayList<String>();
 
+    //wydaje mi sie że pasuje znaleźć lepsze zabezpieczenie dla urnfieldToArabic
+    private static List<String> num = new ArrayList<String>();
     static {
         for (int i = 1; i<= 29; i++)
             num.add(arabicToUrnfield(i));
@@ -22,7 +23,7 @@ public class Urnfield {
             map.put(5, "\\");
             map.put(1, "/");
 
-            int l = map.floorKey(number);
+            int l = map.floorKey(number); //Zwraca największy klucz mniejszy lub równy podanemu kluczowi
             if (number == l) {
                 return map.get(number);
             }
@@ -34,7 +35,6 @@ public class Urnfield {
     public static int urnfieldToArabic(String number) {
 
         if(num.contains(number)) {
-
             TreeMap<String, Integer> map = new TreeMap<String, Integer>();
             map.put("\\", 5);
             map.put("/", 1);

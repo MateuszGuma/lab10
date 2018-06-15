@@ -12,13 +12,8 @@ public class App
 
         ///Testy
         Urnfield u = new Urnfield();
-
         String liczba = "";
 
-        System.out.println( "toUrnfield:");
-        for (int i = 1; i<=29; i++) {
-            System.out.println(i+"\t =\t "+ u.arabicToUrnfield(i));
-        }
         System.out.println( "toUrnfield2:");
         for (int i = 1; i<= 29; i++) {
 
@@ -26,9 +21,6 @@ public class App
             System.out.println(i+"\t =\t "+ liczba );
             System.out.println( u.urnfieldToArabic(liczba));
         }
-
-
-
 
 
     }// main
