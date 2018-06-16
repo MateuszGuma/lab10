@@ -39,8 +39,22 @@ public class UrnfieldNumberTest {
 
     @Test
     public void testNumberToUrnfieldConversion() {
-        UrnfieldNumber uNumber = new UrnfieldNumber();
-        assertEquals(urnfieldNumber, uNumber.arabicToUrnfield(arabicNumber));
+        assertEquals(urnfieldNumber, UrnfieldNumber.arabicToUrnfield(arabicNumber));
+    }
+
+    @Test
+    public void testUrnfieldToNumberConversion() {
+        assertEquals(arabicNumber, UrnfieldNumber.urnfieldToArabic(urnfieldNumber));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testOutOfRange() {
+        assertEquals("///\\\\\\\\\\\\\\", UrnfieldNumber.arabicToUrnfield(38));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalForm() {
+        assertEquals(12, UrnfieldNumber.urnfieldToArabic("\\\\//"));
     }
 
 }
