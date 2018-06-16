@@ -5,12 +5,17 @@ package java_lab;
  *
  */
 
-public class App
-{
-    public static void main( String[] args )
-    {
+public class App {
+    private static GUI graphical_interface;
+    private static Logic data_computation;
+    private static DataSaver saver;
 
-        try {
+    public static void main(String[] args) {
+
+        graphical_interface = new GUI.GUIBuilder.build();
+
+        /*
+        try{
             String liczba = "";
 
             ///Testy
@@ -39,9 +44,8 @@ public class App
         catch (IllegalArgumentException e){
             System.out.println(e);
 
-    }
-
-
+        }
+        */
     }// main
 
 
