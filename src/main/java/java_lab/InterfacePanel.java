@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+
+
 public class InterfacePanel extends JPanel {
     private JButton b_arabicToRoman;
     private JButton b_romanToArabic;
@@ -97,112 +99,40 @@ public class InterfacePanel extends JPanel {
 
 
         //addActionListener
-        b_arabicToUrnfield.addActionListener(new InsertAction(txt_arabic1,txt_urnfield));
-        b_urnfieldToArabic.addActionListener(new InsertAction( txt_urnfield, txt_arabic1));
-        b_arabicToRoman.addActionListener(new InsertAction(txt_arabic2, txt_roman));
-        b_romanToArabic.addActionListener(new InsertAction(txt_roman, txt_arabic2 ));
-
-        //Logic l =new Logic();
-        Logic.Convert a = Logic.Convert.fromArabicToRoman;
-
-//        b_romanToArabic.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                RomanNumber rom =  new RomanNumber();
-//                try {
-//                    int result = rom.romanToArabic(txt_roman.getText());
-//                    txt_arabic2.setText(String.valueOf(result));
-//                }catch (IllegalArgumentException ee){
-//                    txt_roman.setText("IllegalArgument");
-//                }
-//
-//            });
-
-
-        Logic l = new Logic();
-        System.out.println(l.convert(Logic.Convert.fromArabicToRoman, "10"));
-        System.out.println(l.convert(Logic.Convert.fromArabicToUrnfield, "10"));
-        System.out.println(l.convert(Logic.Convert.fromRomanToArabic, "MMCC"));
-        System.out.println(l.convert(Logic.Convert.fromUrnfieldToArabic, "//\\"));
-
+        b_arabicToUrnfield.addActionListener(new InsertAction(txt_arabic1,txt_urnfield,Logic.Convert.fromArabicToUrnfield));
+        b_urnfieldToArabic.addActionListener(new InsertAction( txt_urnfield, txt_arabic1,Logic.Convert.fromUrnfieldToArabic));
+        b_arabicToRoman.addActionListener(new InsertAction(txt_arabic2, txt_roman,Logic.Convert.fromArabicToRoman));
+        b_romanToArabic.addActionListener(new InsertAction(txt_roman, txt_arabic2, Logic.Convert.fromRomanToArabic));
 
     }
 
 
 
 
-
     class InsertAction implements ActionListener {
         ActionEvent  action;
-        //Object source;
+
         JTextField display;
         JTextField display_res;
         String s1;
         String s2;
+        Logic.Convert operationNumber;
 
 
 
         //InsertAction(Object   source, JTextField display,  JTextField display_res){
-        InsertAction( JTextField display,  JTextField display_res){
+        InsertAction( JTextField display,  JTextField display_res, Logic.Convert operationNumber){
             this.display =  display;
             this.display_res =  display_res;
-
-
-
-
+            this.operationNumber = operationNumber;
         }
 
 
         @Override
         public void actionPerformed(ActionEvent e)  {
-            Object   source = e.getSource();
 
-            if(source == b_romanToArabic){
-                RomanNumber rom =  new RomanNumber();
-                try {
-                    int result = rom.romanToArabic(display.getText());
-                    display_res.setText(String.valueOf(result));
-                }catch (IllegalArgumentException ee){
-                    display.setText("IllegalArgument");
-                }
-
-            }
-
-            else if(source == b_arabicToRoman){
-                RomanNumber rom =  new RomanNumber();
-                try {
-                    String result = rom.arabicToRoman(Integer.parseInt(display.getText()));
-                    display_res.setText(result);
-                }catch (IllegalArgumentException ee){
-                    display.setText("IllegalArgument");
-                }
-
-            }
-
-
-            else if(source == b_arabicToUrnfield){
-                UrnfieldNumber rom =  new UrnfieldNumber();
-                try {
-                    String result = rom.arabicToUrnfield(Integer.parseInt(display.getText()));
-                    display_res.setText(result);
-                }catch (IllegalArgumentException ee){
-                    display.setText("IllegalArgument");
-                }
-
-            }
-
-
-            else if(source == b_urnfieldToArabic){
-                UrnfieldNumber rom =  new UrnfieldNumber();
-                try {
-                    int result = rom.urnfieldToArabic(display.getText());
-                    display_res.setText(String.valueOf(result));
-                }catch (IllegalArgumentException ee){
-                    display.setText("IllegalArgument");
-                }
-
-            }
-
+            Logic l = new Logic();
+            display.setText(l.convert(operationNumber,display.getText()));
         }
     }
 
