@@ -1,16 +1,37 @@
 package java_lab;
 
+import javax.swing.*;
+
 /**
  * Application converts arabic number to urnfield numbers and to roman numbers
  *
  */
 
-public class App
-{
-    public static void main( String[] args )
-    {
+public class App extends JFrame {
+    private static App gui;
+    //private static GUI graphical_interface;
+    private static Logic data_computation;
+    private static DataSaver saver;
 
-        try {
+    App() {
+        super("lab10");
+        InterfacePanel interfacePanel = new InterfacePanel();
+
+        this.add(interfacePanel);
+        this.setSize(535,410);
+        this.setLocationRelativeTo(null); //wysrodkowanie
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setMinimumSize(this.getMinimumSize());
+        this.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        if(gui == null)
+            SwingUtilities.invokeLater(() -> gui = new App());
+
+
+        /*
+        try{
             String liczba = "";
 
             ///Testy
@@ -39,9 +60,8 @@ public class App
         catch (IllegalArgumentException e){
             System.out.println(e);
 
-    }
-
-
+        }
+        */
     }// main
 
 
