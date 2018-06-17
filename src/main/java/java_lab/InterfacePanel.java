@@ -1,7 +1,5 @@
 package java_lab;
 
-import com.sun.tools.corba.se.idl.StringGen;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -26,10 +24,10 @@ public class InterfacePanel extends JPanel {
     private JTextField txt_urnfield;
     private JTextField txt_roman;
 
-    private JTextArea txt_history;
+    private static JTextArea txt_history;
 
-    private Logic logic; // ====================================================================================== ważne! używam klasy Logic tutaj
-    private List<String> history_list;
+    private static Logic logic; // ====================================================================================== ważne! używam klasy Logic tutaj
+    private static List<String> history_list;
 
     InterfacePanel() {
         super();
@@ -49,7 +47,7 @@ public class InterfacePanel extends JPanel {
 
         b_arabicToUrnfield = new JButton("Convert to Urnfield");
         b_arabicToUrnfield.setBounds(30, 70, 160, 30);
-        b_arabicToUrnfield.addMouseListener(new ActionListenerFactory.getMouseAdapter(1, txt_arabic1, txt_urnfield)); //nie działa coś
+        b_arabicToUrnfield.addMouseListener(ActionListenerFactory.getMouseAdapter(1, txt_arabic1, txt_urnfield)); //nie działa coś
         add(b_arabicToUrnfield);
 
         //segment2
@@ -63,6 +61,7 @@ public class InterfacePanel extends JPanel {
 
         b_urnfieldToArabic = new JButton("Convert to Arabic");
         b_urnfieldToArabic.setBounds(335, 70, 150, 30);
+        b_urnfieldToArabic.addMouseListener(ActionListenerFactory.getMouseAdapter(2, txt_urnfield, txt_arabic1));
         add(b_urnfieldToArabic);
 
         //segment3
@@ -101,13 +100,13 @@ public class InterfacePanel extends JPanel {
 
     }
 
-    private void addHistory(String source, String result) {
+    private static void addHistory(String source, String result) {
         history_list.add(source + " --> " + result);
         if(history_list.size() > 5)
             history_list.remove(0);
     }
 
-    private void displayHistory() {
+    private static void displayHistory() {
         int elements;
         if(history_list.size() < 5) {
             elements = history_list.size();
@@ -121,31 +120,8 @@ public class InterfacePanel extends JPanel {
         txt_history.setText(historyText);
     }
 
-/*
-    public class ActionListenerFactory {
-        MouseAdapter ActionListenerFactory(int operationNumber) {
-        //public MouseAdapter getMouseAdapter(int operationNumber) {
-            switch(operationNumber) {
-                case 1:
-                    return new fromArabicToUrnfieldHandler(txt_arabic1, txt_urnfield);
-                    break;
-                case 2:
-                    return new fromUrnfieldToArabicHandler(txt_urnfield, txt_arabic1);
-                    break;
-                case 3:
-                    return new fromArabicToRomanHandler(txt_arabic2, txt_roman);
-                    break;
-                case 4:
-                    return new fromRomanToArabicHandler(txt_roman, txt_arabic2);
-                default:
-                    return null;
-                    break;
-            }
-        }
-    }
-*/
 
-    public class fromArabicToUrnfieldHandler extends MouseAdapter {
+    public static class fromArabicToUrnfieldHandler extends MouseAdapter {
         private JTextField display;
         private JTextField source;
 
@@ -161,7 +137,7 @@ public class InterfacePanel extends JPanel {
             String sourceText = source.getText();
             String resultText;
             if(!sourceText.isEmpty()) {
-                resultText = logic.convert(1, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                resultText = logic.convert(Logic.Convert.fromArabicToUrnfield, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
                 display.setText(resultText);
                 addHistory(sourceText, resultText);
                 displayHistory();
@@ -169,7 +145,7 @@ public class InterfacePanel extends JPanel {
         }
     }
 
-    public class fromUrnfieldToArabicHandler extends MouseAdapter {
+    public static class fromUrnfieldToArabicHandler extends MouseAdapter {
         private JTextField display;
         private JTextField source;
 
@@ -183,16 +159,17 @@ public class InterfacePanel extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
             String sourceText = source.getText();
-            String displayText;
+            String resultText;
             if(!sourceText.isEmpty()) {
-                displayText = logic.convert(2, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
-                addHistory(sourceText, displayText);
+                resultText = logic.convert(Logic.Convert.fromUrnfieldToArabic, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                display.setText(resultText);
+                addHistory(sourceText, resultText);
                 displayHistory();
             }
         }
     }
 
-    public class fromArabicToRomanHandler extends MouseAdapter {
+    public static class fromArabicToRomanHandler extends MouseAdapter {
         private JTextField display;
         private JTextField source;
 
@@ -208,7 +185,7 @@ public class InterfacePanel extends JPanel {
             String sourceText = source.getText();
             String resultText;
             if(!sourceText.isEmpty()) {
-                resultText = logic.convert(3, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                resultText = logic.convert(Logic.Convert.fromArabicToRoman, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
                 display.setText(resultText);
                 addHistory(sourceText, resultText);
                 displayHistory();
@@ -216,7 +193,7 @@ public class InterfacePanel extends JPanel {
         }
     }
 
-    public class fromRomanToArabicHandler extends MouseAdapter {
+    public static class fromRomanToArabicHandler extends MouseAdapter {
         private JTextField display;
         private JTextField source;
 
@@ -230,10 +207,11 @@ public class InterfacePanel extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
             String sourceText = source.getText();
-            String displayText;
+            String resultText;
             if(!sourceText.isEmpty()) {
-                displayText = logic.convert(4, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
-                addHistory(sourceText, displayText);
+                resultText = logic.convert(Logic.Convert.fromRomanToArabic, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                display.setText(resultText);
+                addHistory(sourceText, resultText);
                 displayHistory();
             }
         }
