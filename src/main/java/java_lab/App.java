@@ -18,7 +18,7 @@ public class App extends JFrame {
         InterfacePanel interfacePanel = new InterfacePanel();
 
         this.add(interfacePanel);
-        this.setSize(525,380);
+        this.setSize(535,410);
         this.setLocationRelativeTo(null); //wysrodkowanie
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(this.getMinimumSize());
@@ -26,7 +26,8 @@ public class App extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> gui = new App());
+        if(gui == null)
+            SwingUtilities.invokeLater(() -> gui = new App());
 
 
         /*
