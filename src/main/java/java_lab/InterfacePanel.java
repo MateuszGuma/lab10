@@ -102,6 +102,8 @@ public class InterfacePanel extends JPanel {
         b_arabicToRoman.addActionListener(new InsertAction(txt_arabic2, txt_roman));
         b_romanToArabic.addActionListener(new InsertAction(txt_roman, txt_arabic2 ));
 
+        //Logic l =new Logic();
+        Logic.Convert a = Logic.Convert.fromArabicToRoman;
 
 //        b_romanToArabic.addActionListener(new ActionListener() {
 //            @Override
@@ -115,6 +117,14 @@ public class InterfacePanel extends JPanel {
 //                }
 //
 //            });
+
+
+        Logic l = new Logic();
+        System.out.println(l.convert(Logic.Convert.fromArabicToRoman, "10"));
+        System.out.println(l.convert(Logic.Convert.fromArabicToUrnfield, "10"));
+        System.out.println(l.convert(Logic.Convert.fromRomanToArabic, "MMCC"));
+        System.out.println(l.convert(Logic.Convert.fromUrnfieldToArabic, "//\\"));
+
 
     }
 
