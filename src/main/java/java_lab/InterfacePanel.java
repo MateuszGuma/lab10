@@ -1,10 +1,12 @@
 package java_lab;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class InterfacePanel extends JPanel {
     private JButton b_arabicToRoman;
@@ -16,197 +18,205 @@ public class InterfacePanel extends JPanel {
     private JLabel l_arabic2;
     private JLabel l_urnfield;
     private JLabel l_roman;
+    private JLabel l_history;
 
     private JTextField txt_arabic1;
     private JTextField txt_arabic2;
     private JTextField txt_urnfield;
     private JTextField txt_roman;
 
-    private JTextArea history;
+    private static JTextArea txt_history;
+
+    private static Logic logic; // ====================================================================================== ważne! używam klasy Logic tutaj
+    private static List<String> history_list;
 
     InterfacePanel() {
         super();
-        //todo etykiety, przyciski, pola tekstowe
+        history_list = new ArrayList<String>();
+
+        logic = new Logic();
         setLayout(null);
 
         //segment1
         l_arabic1 = new JLabel("Arabic Numbers");
-        l_arabic1.setBounds(5, 5, 200, 20);
+        l_arabic1.setBounds(10, 10, 200, 20);
         add(l_arabic1);
 
         txt_arabic1 = new JTextField(15);
-        txt_arabic1.setBounds(5, 30, 200, 30);
+        txt_arabic1.setBounds(10, 33, 200, 30);
         add(txt_arabic1);
 
         b_arabicToUrnfield = new JButton("Convert to Urnfield");
-        b_arabicToUrnfield.setBounds(25, 65, 160, 30);
-        //b_arabicToUrnfield.addActionListener(new InsertAction(txt_arabic1,txt_urnfield));
-
+        b_arabicToUrnfield.setBounds(30, 70, 160, 30);
+        b_arabicToUrnfield.addMouseListener(ActionListenerFactory.getMouseAdapter(1, txt_arabic1, txt_urnfield)); //nie działa coś
         add(b_arabicToUrnfield);
 
         //segment2
         l_urnfield = new JLabel("Urnfield Numerals");
-        l_urnfield.setBounds(305, 5, 200, 20);
+        l_urnfield.setBounds(310, 10, 200, 20);
         add(l_urnfield);
 
         txt_urnfield = new JTextField(15);
-        txt_urnfield.setBounds(305,30,200,30);
+        txt_urnfield.setBounds(310,35,200,30);
         add(txt_urnfield);
 
         b_urnfieldToArabic = new JButton("Convert to Arabic");
-        b_urnfieldToArabic.setBounds(330, 65, 150, 30);
-        //b_urnfieldToArabic.addActionListener(new InsertAction(txt_urnfield, txt_arabic1));
+        b_urnfieldToArabic.setBounds(335, 70, 150, 30);
+        b_urnfieldToArabic.addMouseListener(ActionListenerFactory.getMouseAdapter(2, txt_urnfield, txt_arabic1));
         add(b_urnfieldToArabic);
 
         //segment3
         l_arabic2 = new JLabel("Arabic Numbers");
-        l_arabic2.setBounds(5, 120, 200, 20);
+        l_arabic2.setBounds(10, 125, 200, 20);
         add(l_arabic2);
 
         txt_arabic2 = new JTextField(15);
-        txt_arabic2.setBounds(5, 145, 200, 30);
+        txt_arabic2.setBounds(10, 150, 200, 30);
         add(txt_arabic2);
 
         b_arabicToRoman = new JButton("Convert to Roman");
-        b_arabicToRoman.setBounds(25, 180, 160, 30);
-        //b_arabicToRoman.addActionListener(new InsertAction(txt_arabic2, txt_roman));
+        b_arabicToRoman.setBounds(30, 185, 160, 30);
         add(b_arabicToRoman);
 
         //segment4
         l_roman = new JLabel("Roman Numerals");
-        l_roman.setBounds(305,120,200,20);
-
+        l_roman.setBounds(310,125,200,20);
         add(l_roman);
 
         txt_roman = new JTextField(15);
-        txt_roman.setBounds(305, 145, 200, 30);
+        txt_roman.setBounds(310, 150, 200, 30);
         add(txt_roman);
 
         b_romanToArabic = new JButton("Convert to Arabic");
-        b_romanToArabic.setBounds(330, 180, 160, 30);
-        //b_romanToArabic.addActionListener(new InsertAction(txt_roman, txt_arabic2 ));
-
-
+        b_romanToArabic.setBounds(335, 185, 160, 30);
         add(b_romanToArabic);
 
-        history = new JTextArea(5, 20);
-        history.setBounds(5, 230, 500, 100);
-        add(history);
+        l_history = new JLabel("Last 5 conversions");
+        l_history.setBounds(10, 235, 200, 20);
+        add(l_history);
 
+        txt_history = new JTextArea(5, 20);
+        txt_history.setBounds(10, 260, 500, 100);
+        add(txt_history);
 
+    }
+  
+  
+    private static void addHistory(String source, String result) {
+        history_list.add(source + " --> " + result);
+        if(history_list.size() > 5)
+            history_list.remove(0);
+    }
 
+    private static void displayHistory() {
+        int elements;
+        if(history_list.size() < 5) {
+            elements = history_list.size();
+        }
+        else elements = 5;
 
-        //addActionListener
-        b_arabicToUrnfield.addActionListener(new InsertAction(txt_arabic1,txt_urnfield));
-        b_urnfieldToArabic.addActionListener(new InsertAction( txt_urnfield, txt_arabic1));
-        b_arabicToRoman.addActionListener(new InsertAction(txt_arabic2, txt_roman));
-        b_romanToArabic.addActionListener(new InsertAction(txt_roman, txt_arabic2 ));
-
-        //Logic l =new Logic();
-        Logic.Convert a = Logic.Convert.fromArabicToRoman;
-
-//        b_romanToArabic.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                RomanNumber rom =  new RomanNumber();
-//                try {
-//                    int result = rom.romanToArabic(txt_roman.getText());
-//                    txt_arabic2.setText(String.valueOf(result));
-//                }catch (IllegalArgumentException ee){
-//                    txt_roman.setText("IllegalArgument");
-//                }
-//
-//            });
-
-
-        Logic l = new Logic();
-        System.out.println(l.convert(Logic.Convert.fromArabicToRoman, "10"));
-        System.out.println(l.convert(Logic.Convert.fromArabicToUrnfield, "10"));
-        System.out.println(l.convert(Logic.Convert.fromRomanToArabic, "MMCC"));
-        System.out.println(l.convert(Logic.Convert.fromUrnfieldToArabic, "//\\"));
-
-
+        String historyText = "";
+        for(int i = 0; i < elements; i++) {
+            historyText += history_list.get(i) + System.lineSeparator();
+        }
+        txt_history.setText(historyText);
     }
 
 
+    public static class fromArabicToUrnfieldHandler extends MouseAdapter {
+        private JTextField display;
+        private JTextField source;
 
+        fromArabicToUrnfieldHandler() { super(); }
 
-
-    class InsertAction implements ActionListener {
-        ActionEvent  action;
-        //Object source;
-        JTextField display;
-        JTextField display_res;
-        String s1;
-        String s2;
-
-
-
-        //InsertAction(Object   source, JTextField display,  JTextField display_res){
-        InsertAction( JTextField display,  JTextField display_res){
-            this.display =  display;
-            this.display_res =  display_res;
-
-
-
-
+        fromArabicToUrnfieldHandler(JTextField source, JTextField display) {
+            this.display = display;
+            this.source = source;
         }
-
 
         @Override
-        public void actionPerformed(ActionEvent e)  {
-            Object   source = e.getSource();
-
-            if(source == b_romanToArabic){
-                RomanNumber rom =  new RomanNumber();
-                try {
-                    int result = rom.romanToArabic(display.getText());
-                    display_res.setText(String.valueOf(result));
-                }catch (IllegalArgumentException ee){
-                    display.setText("IllegalArgument");
-                }
-
+        public void mousePressed(MouseEvent e) {
+            String sourceText = source.getText();
+            String resultText;
+            if(!sourceText.isEmpty()) {
+                resultText = logic.convert(Logic.Convert.fromArabicToUrnfield, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                display.setText(resultText);
+                addHistory(sourceText, resultText);
+                displayHistory();
             }
-
-            else if(source == b_arabicToRoman){
-                RomanNumber rom =  new RomanNumber();
-                try {
-                    String result = rom.arabicToRoman(Integer.parseInt(display.getText()));
-                    display_res.setText(result);
-                }catch (IllegalArgumentException ee){
-                    display.setText("IllegalArgument");
-                }
-
-            }
-
-
-            else if(source == b_arabicToUrnfield){
-                UrnfieldNumber rom =  new UrnfieldNumber();
-                try {
-                    String result = rom.arabicToUrnfield(Integer.parseInt(display.getText()));
-                    display_res.setText(result);
-                }catch (IllegalArgumentException ee){
-                    display.setText("IllegalArgument");
-                }
-
-            }
-
-
-            else if(source == b_urnfieldToArabic){
-                UrnfieldNumber rom =  new UrnfieldNumber();
-                try {
-                    int result = rom.urnfieldToArabic(display.getText());
-                    display_res.setText(String.valueOf(result));
-                }catch (IllegalArgumentException ee){
-                    display.setText("IllegalArgument");
-                }
-
-            }
-
         }
     }
 
+    public static class fromUrnfieldToArabicHandler extends MouseAdapter {
+        private JTextField display;
+        private JTextField source;
 
+        fromUrnfieldToArabicHandler() { super(); }
 
+        fromUrnfieldToArabicHandler(JTextField source, JTextField display) {
+            this.display = display;
+            this.source = source;
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            String sourceText = source.getText();
+            String resultText;
+            if(!sourceText.isEmpty()) {
+                resultText = logic.convert(Logic.Convert.fromUrnfieldToArabic, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                display.setText(resultText);
+                addHistory(sourceText, resultText);
+                displayHistory();
+            }
+        }
+    }
+
+    public static class fromArabicToRomanHandler extends MouseAdapter {
+        private JTextField display;
+        private JTextField source;
+
+        fromArabicToRomanHandler() { super(); }
+
+        fromArabicToRomanHandler(JTextField source, JTextField display) {
+            this.display = display;
+            this.source = source;
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            String sourceText = source.getText();
+            String resultText;
+            if(!sourceText.isEmpty()) {
+                resultText = logic.convert(Logic.Convert.fromArabicToRoman, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                display.setText(resultText);
+                addHistory(sourceText, resultText);
+                displayHistory();
+            }
+        }
+    }
+
+    public static class fromRomanToArabicHandler extends MouseAdapter {
+        private JTextField display;
+        private JTextField source;
+
+        fromRomanToArabicHandler() { super(); }
+
+        fromRomanToArabicHandler(JTextField source, JTextField display) {
+            this.display = display;
+            this.source = source;
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            String sourceText = source.getText();
+            String resultText;
+            if(!sourceText.isEmpty()) {
+                resultText = logic.convert(Logic.Convert.fromRomanToArabic, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                display.setText(resultText);
+                addHistory(sourceText, resultText);
+                displayHistory();
+            }
+        }
+    }
 
 }
