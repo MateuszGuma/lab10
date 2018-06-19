@@ -8,7 +8,11 @@ package java_lab;
                 System.out.println(l.convert(Logic.Convert.fromUrnfieldToArabic, "//\\"));*/ //return 7
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class Logic {
+    static DataSaver saver = new DataSaver();
 
     public enum Convert {
         fromUrnfieldToArabic, fromArabicToUrnfield, fromRomanToArabic, fromArabicToRoman;
@@ -65,9 +69,17 @@ public class Logic {
             default:
                 result = "Convert " + en;
         }
+        try{
+            saver.data_save(number, result);
+        }catch (IOException e)
+        {
+
+        }
         return result;
     }
 
-  //return result;
+
+
+
 
 }
