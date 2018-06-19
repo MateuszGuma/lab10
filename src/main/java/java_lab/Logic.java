@@ -32,7 +32,7 @@ public class Logic {
             case fromUrnfieldToArabic:
                 UrnfieldNumber fromUrnfie =  new UrnfieldNumber();
                 try {
-                    result = String.valueOf(fromUrnfie.urnfieldToArabic(number));
+                    result = String.valueOf(fromUrnfie.urnfieldToArabic(new UrnfieldWrapper(number)));
 
                 }catch (IllegalArgumentException ee){
                     result = "IllegalArgument";
@@ -52,7 +52,7 @@ public class Logic {
             case fromRomanToArabic:
                 RomanNumber fromRoman =  new RomanNumber();
                 try {
-                    result = String.valueOf(fromRoman.romanToArabic(number));
+                    result = String.valueOf(fromRoman.romanToArabic(new RomanWrapper(number)));
 
                 }catch (IllegalArgumentException ee){
                     result = "IllegalArgument";
@@ -72,6 +72,7 @@ public class Logic {
             default:
                 result = "Convert " + en;
         }
+
         try{
             saver.data_save(number, result);
         }catch (IOException e)

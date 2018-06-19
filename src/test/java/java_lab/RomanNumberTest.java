@@ -43,7 +43,7 @@ public class RomanNumberTest {
 
     @Test
     public void testRomanToNumberConversion() {
-        assertEquals(arabicNumber, RomanNumber.romanToArabic(romanNumber));
+        assertEquals(arabicNumber, RomanNumber.romanToArabic(new RomanWrapper(romanNumber)));
     }
 
     @Test(expected = IllegalArgumentException.class)
