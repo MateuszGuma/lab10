@@ -1,7 +1,6 @@
 package java_lab;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -27,12 +26,17 @@ public class InterfacePanel extends JPanel {
 
     private static JTextArea txt_history;
 
-    private static Logic logic; // ====================================================================================== ważne! używam klasy Logic tutaj
+    private static Logic logic;
     private static List<String> history_list;
 
     InterfacePanel() {
         super();
         history_list = new ArrayList<String>();
+
+        txt_arabic1 = new JTextField(15);
+        txt_urnfield = new JTextField(15);
+        txt_arabic2 = new JTextField(15);
+        txt_roman = new JTextField(15);
 
         logic = new Logic();
         setLayout(null);
@@ -42,13 +46,12 @@ public class InterfacePanel extends JPanel {
         l_arabic1.setBounds(10, 10, 200, 20);
         add(l_arabic1);
 
-        txt_arabic1 = new JTextField(15);
         txt_arabic1.setBounds(10, 33, 200, 30);
         add(txt_arabic1);
 
         b_arabicToUrnfield = new JButton("Convert to Urnfield");
         b_arabicToUrnfield.setBounds(30, 70, 160, 30);
-        b_arabicToUrnfield.addMouseListener(ActionListenerFactory.getMouseAdapter(1, txt_arabic1, txt_urnfield)); //nie działa coś
+        b_arabicToUrnfield.addMouseListener(ActionListenerFactory.getMouseAdapter(1, txt_arabic1, txt_urnfield));
         add(b_arabicToUrnfield);
 
         //segment2
@@ -56,7 +59,6 @@ public class InterfacePanel extends JPanel {
         l_urnfield.setBounds(310, 10, 200, 20);
         add(l_urnfield);
 
-        txt_urnfield = new JTextField(15);
         txt_urnfield.setBounds(310,35,200,30);
         add(txt_urnfield);
 
@@ -70,12 +72,12 @@ public class InterfacePanel extends JPanel {
         l_arabic2.setBounds(10, 125, 200, 20);
         add(l_arabic2);
 
-        txt_arabic2 = new JTextField(15);
         txt_arabic2.setBounds(10, 150, 200, 30);
         add(txt_arabic2);
 
         b_arabicToRoman = new JButton("Convert to Roman");
         b_arabicToRoman.setBounds(30, 185, 160, 30);
+        b_arabicToRoman.addMouseListener(ActionListenerFactory.getMouseAdapter(3, txt_arabic2, txt_roman));
         add(b_arabicToRoman);
 
         //segment4
@@ -83,12 +85,17 @@ public class InterfacePanel extends JPanel {
         l_roman.setBounds(310,125,200,20);
         add(l_roman);
 
-        txt_roman = new JTextField(15);
         txt_roman.setBounds(310, 150, 200, 30);
         add(txt_roman);
 
         b_romanToArabic = new JButton("Convert to Arabic");
         b_romanToArabic.setBounds(335, 185, 160, 30);
+        b_romanToArabic.addMouseListener(ActionListenerFactory.getMouseAdapter(4, txt_roman, txt_arabic2));
+
+        //MouseAdapter l4 = ActionListenerFactory.getMouseAdapter(4, txt_roman, txt_arabic2);
+        //if(l4 == null) System.out.println("L4");
+        //b_urnfieldToArabic.addMouseListener(l4);
+
         add(b_romanToArabic);
 
         l_history = new JLabel("Last 5 conversions");
@@ -127,8 +134,6 @@ public class InterfacePanel extends JPanel {
         private JTextField display;
         private JTextField source;
 
-        fromArabicToUrnfieldHandler() { super(); }
-
         fromArabicToUrnfieldHandler(JTextField source, JTextField display) {
             this.display = display;
             this.source = source;
@@ -139,7 +144,7 @@ public class InterfacePanel extends JPanel {
             String sourceText = source.getText();
             String resultText;
             if(!sourceText.isEmpty()) {
-                resultText = logic.convert(Logic.Convert.fromArabicToUrnfield, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                resultText = logic.convert(Logic.Convert.fromArabicToUrnfield, sourceText);
                 display.setText(resultText);
                 addHistory(sourceText, resultText);
                 displayHistory();
@@ -163,7 +168,7 @@ public class InterfacePanel extends JPanel {
             String sourceText = source.getText();
             String resultText;
             if(!sourceText.isEmpty()) {
-                resultText = logic.convert(Logic.Convert.fromUrnfieldToArabic, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                resultText = logic.convert(Logic.Convert.fromUrnfieldToArabic, sourceText);
                 display.setText(resultText);
                 addHistory(sourceText, resultText);
                 displayHistory();
@@ -175,8 +180,6 @@ public class InterfacePanel extends JPanel {
         private JTextField display;
         private JTextField source;
 
-        fromArabicToRomanHandler() { super(); }
-
         fromArabicToRomanHandler(JTextField source, JTextField display) {
             this.display = display;
             this.source = source;
@@ -187,7 +190,7 @@ public class InterfacePanel extends JPanel {
             String sourceText = source.getText();
             String resultText;
             if(!sourceText.isEmpty()) {
-                resultText = logic.convert(Logic.Convert.fromArabicToRoman, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                resultText = logic.convert(Logic.Convert.fromArabicToRoman, sourceText);
                 display.setText(resultText);
                 addHistory(sourceText, resultText);
                 displayHistory();
@@ -199,8 +202,6 @@ public class InterfacePanel extends JPanel {
         private JTextField display;
         private JTextField source;
 
-        fromRomanToArabicHandler() { super(); }
-
         fromRomanToArabicHandler(JTextField source, JTextField display) {
             this.display = display;
             this.source = source;
@@ -211,7 +212,7 @@ public class InterfacePanel extends JPanel {
             String sourceText = source.getText();
             String resultText;
             if(!sourceText.isEmpty()) {
-                resultText = logic.convert(Logic.Convert.fromRomanToArabic, sourceText);  // ================== powinien zawsze zwracać String odpowiedź lub tesc błedu, powinien tez sie komunikowac z zapisywaniem danych
+                resultText = logic.convert(Logic.Convert.fromRomanToArabic, sourceText);
                 display.setText(resultText);
                 addHistory(sourceText, resultText);
                 displayHistory();
