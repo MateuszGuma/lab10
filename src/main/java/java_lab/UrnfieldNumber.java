@@ -32,19 +32,19 @@ public class UrnfieldNumber {
     }
 
 
-    public static int urnfieldToArabic(String number) {
+    public static int urnfieldToArabic(UrnfieldWrapper number) {
 
-        if(num.contains(number)) {
+        if(num.contains(number.stringValue())) {
             TreeMap<String, Integer> map = new TreeMap<String, Integer>();
             map.put("\\", 5);
             map.put("/", 1);
 
-            String l = map.floorKey(number);
-            if (number.equals(l)) {
-                return map.get(number);
+            String l = map.floorKey(number.stringValue());
+            if (number.stringValue().equals(l)) {
+                return map.get(number.stringValue());
             }
-            String num = number.subSequence(1, number.length()).toString();
-            return map.get(l) + urnfieldToArabic(num);
-        }else throw new IllegalArgumentException("urnfieldToArabic: " + number );
+            String num = number.stringValue().subSequence(1, number.stringValue().length()).toString();
+            return map.get(l) + urnfieldToArabic(new UrnfieldWrapper(num));
+        }else throw new IllegalArgumentException("urnfieldToArabic: " + number.stringValue() );
     }
 }

@@ -54,20 +54,20 @@ public class RomanNumber {
     }
 
 
-    public static int romanToArabic(String number) {
+    public static int romanToArabic(RomanWrapper number) {
         int res = 0;
-        for (int i = 0; i < number.length(); i++) {
-            String k1 = Character.toString(number.charAt(i));
+        for (int i = 0; i < number.stringValue().length(); i++) {
+            String k1 = Character.toString(number.stringValue().charAt(i));
 
             if(!arabic_numerals.containsKey(k1))
-                throw new IllegalArgumentException("romanToArabic: " + number);
+                throw new IllegalArgumentException("romanToArabic: " + number.stringValue());
 
             int s1 = arabic_numerals.get(k1);
-            if (i + 1 < number.length()) {
-                String k2 = Character.toString(number.charAt(i+1));
+            if (i + 1 < number.stringValue().length()) {
+                String k2 = Character.toString(number.stringValue().charAt(i+1));
 
                 if(!arabic_numerals.containsKey(k2))
-                    throw new IllegalArgumentException("romanToArabic: "  + number);
+                    throw new IllegalArgumentException("romanToArabic: "  + number.stringValue());
 
                 int s2 = arabic_numerals.get(k2);
 

@@ -44,7 +44,7 @@ public class UrnfieldNumberTest {
 
     @Test
     public void testUrnfieldToNumberConversion() {
-        assertEquals(arabicNumber, UrnfieldNumber.urnfieldToArabic(urnfieldNumber));
+        assertEquals(arabicNumber, UrnfieldNumber.urnfieldToArabic(new UrnfieldWrapper(urnfieldNumber)));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -54,7 +54,7 @@ public class UrnfieldNumberTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalForm() {
-        assertEquals(12, UrnfieldNumber.urnfieldToArabic("\\\\//"));
+        assertEquals(12, UrnfieldNumber.urnfieldToArabic(new UrnfieldWrapper("\\\\//")));
     }
 
 }
