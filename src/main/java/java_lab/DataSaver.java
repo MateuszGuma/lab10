@@ -10,7 +10,7 @@ public class DataSaver {
     List <String>list = null;
 
 
-    static String file_path = "test.txt";
+    static String file_path = "history.txt";
 
     DataSaver()
     {
@@ -54,10 +54,15 @@ public class DataSaver {
         {
         }
 
-        for(int i = list.size()-1; i > list.size() - 6; i --)
-        {
-            tmp = tmp + list.get(i)+"\n";
+        if(list.size() > 0) {
+            int stop;
+            if(list.size() > 5) stop = list.size() - 5;
+            else stop = 0;
+            for(int i = list.size() - 1; i >= stop; i--) {
+                tmp = tmp + list.get(i) + "\n";
+            }
         }
+
         return tmp;
     }
 }
