@@ -13,6 +13,9 @@ public class InterfacePanel extends JPanel {
     private JButton b_arabicToUrnfield;
     private JButton b_urnfieldToArabic;
 
+    private JButton b_clearInput;
+    private JButton b_clearHistory;
+
     private JLabel l_arabic1;
     private JLabel l_arabic2;
     private JLabel l_urnfield;
@@ -91,20 +94,26 @@ public class InterfacePanel extends JPanel {
         b_romanToArabic = new JButton("Convert to Arabic");
         b_romanToArabic.setBounds(335, 185, 160, 30);
         b_romanToArabic.addMouseListener(ActionListenerFactory.getMouseAdapter(4, txt_roman, txt_arabic2));
-
-        //MouseAdapter l4 = ActionListenerFactory.getMouseAdapter(4, txt_roman, txt_arabic2);
-        //if(l4 == null) System.out.println("L4");
-        //b_urnfieldToArabic.addMouseListener(l4);
-
         add(b_romanToArabic);
 
+        b_clearInput = new JButton("Clear Input Areas");
+        b_clearInput.setBounds(10, 230, 230, 20);
+        b_clearInput.addMouseListener(new ClearInput());
+        add(b_clearInput);
+
+        b_clearHistory = new JButton("Clear History Area");
+        b_clearHistory.setBounds(280, 230, 230, 20);
+        b_clearHistory.addMouseListener(new ClearHistory());
+        add(b_clearHistory);
+
         l_history = new JLabel("Last 5 conversions");
-        l_history.setBounds(10, 235, 200, 20);
+        l_history.setBounds(10, 260, 200, 20);
         add(l_history);
 
         txt_history = new JTextArea(5, 20);
-        txt_history.setBounds(10, 260, 500, 100);
+        txt_history.setBounds(10, 285, 500, 100);
         add(txt_history);
+
 
     }
   
@@ -220,4 +229,29 @@ public class InterfacePanel extends JPanel {
         }
     }
 
+    public class ClearInput extends MouseAdapter {
+        ClearInput() {
+            super();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            txt_arabic1.setText("");
+            txt_arabic2.setText("");
+            txt_urnfield.setText("");
+            txt_roman.setText("");
+        }
+    }
+
+    public class ClearHistory extends MouseAdapter {
+        ClearHistory() {
+            super();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            history_list.clear();
+            displayHistory();
+        }
+    }
 }

@@ -18,7 +18,7 @@ public class App extends JFrame {
         InterfacePanel interfacePanel = new InterfacePanel();
 
         this.add(interfacePanel);
-        this.setSize(535,410);
+        this.setSize(535,435);
         this.setLocationRelativeTo(null); //wysrodkowanie
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(this.getMinimumSize());
