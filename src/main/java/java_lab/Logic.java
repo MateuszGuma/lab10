@@ -8,21 +8,31 @@ package java_lab;
                 System.out.println(l.convert(Logic.Convert.fromUrnfieldToArabic, "//\\"));*/ //return 7
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class Logic {
+    private DataSaver saver;
 
     public enum Convert {
         fromUrnfieldToArabic, fromArabicToUrnfield, fromRomanToArabic, fromArabicToRoman;
     }
 
+    Logic() {
+        saver = new DataSaver();
+    }
 
-    public String convert(Convert operationNumber, String number){
+    public String convert(Convert  en, String number){
         String result;
 
-        switch (operationNumber) {
+
+        //Convert t = Convert.valueOf()[en];
+
+        switch (en) {
             case fromUrnfieldToArabic:
                 UrnfieldNumber fromUrnfie =  new UrnfieldNumber();
                 try {
-                    result = String.valueOf(fromUrnfie.urnfieldToArabic(number));
+                    result = String.valueOf(fromUrnfie.urnfieldToArabic(new UrnfieldWrapper(number)));
 
                 }catch (IllegalArgumentException ee){
                     result = "IllegalArgument";
@@ -42,7 +52,7 @@ public class Logic {
             case fromRomanToArabic:
                 RomanNumber fromRoman =  new RomanNumber();
                 try {
-                    result = String.valueOf(fromRoman.romanToArabic(number));
+                    result = String.valueOf(fromRoman.romanToArabic(new RomanWrapper(number)));
 
                 }catch (IllegalArgumentException ee){
                     result = "IllegalArgument";
@@ -60,9 +70,24 @@ public class Logic {
                 break;
 
             default:
-                result = "Convert " + operationNumber;
+                result = "Convert " + en;
+        }
+
+        try{
+            saver.data_save(number, result);
+        }catch (IOException e)
+        {
+
         }
         return result;
     }
+
+    public String history()
+            //Return last 5 operations from history
+    {
+        return saver.history();
+    }
+
+
 
 }
