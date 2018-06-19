@@ -9,11 +9,11 @@ import java.util.TreeMap; //TreeMap<K,V>
 public class UrnfieldNumber {
 
     //wydaje mi sie że pasuje znaleźć lepsze zabezpieczenie dla urnfieldToArabic
-    private static List<String> num = new ArrayList<String>();
-    static {
-        for (int i = 1; i<= 29; i++)
-            num.add(arabicToUrnfield(i));
-    }
+//    private static List<String> num = new ArrayList<String>();
+//    static {
+//        for (int i = 1; i<= 29; i++)
+//            num.add(arabicToUrnfield(i));
+//    }
 
 
 
@@ -34,7 +34,7 @@ public class UrnfieldNumber {
 
     public static int urnfieldToArabic(UrnfieldWrapper number) {
 
-        if(num.contains(number.stringValue())) {
+        //if(num.contains(number.stringValue())) {
             TreeMap<String, Integer> map = new TreeMap<String, Integer>();
             map.put("\\", 5);
             map.put("/", 1);
@@ -45,6 +45,6 @@ public class UrnfieldNumber {
             }
             String num = number.stringValue().subSequence(1, number.stringValue().length()).toString();
             return map.get(l) + urnfieldToArabic(new UrnfieldWrapper(num));
-        }else throw new IllegalArgumentException("urnfieldToArabic: " + number.stringValue() );
+        //}else throw new IllegalArgumentException("urnfieldToArabic: " + number.stringValue() );
     }
 }
