@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 
 public class ActionListenerFactory {
-    //jeszcze nie działa
-
     public static MouseAdapter getMouseAdapter(int operationNumber, JTextField source, JTextField destination) {
         switch(operationNumber) {
             case 1:
