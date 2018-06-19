@@ -12,12 +12,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Logic {
-    static DataSaver saver = new DataSaver();
+    private DataSaver saver;
 
     public enum Convert {
         fromUrnfieldToArabic, fromArabicToUrnfield, fromRomanToArabic, fromArabicToRoman;
     }
 
+    Logic() {
+        saver = new DataSaver();
+    }
 
     public String convert(Convert  en, String number){
         String result;
