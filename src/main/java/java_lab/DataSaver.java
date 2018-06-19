@@ -1,18 +1,24 @@
 package java_lab;
 
 
+
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class DataSaver {
     FileWriter save_to_file = null;
     File file = null;
+    List <String>list = null;
+
 
     static String file_path = "test.txt";
 
     DataSaver()
     {
         file = new File(file_path);
+        list = new ArrayList<>();
     }
 
     void data_save (String number, String resoult) throws IOException
@@ -24,9 +30,10 @@ public class DataSaver {
 
         tmp = number +" -> "+resoult;
 
-        //save_to_file.append(tmp);
-        pw.println(tmp);
-        //save_to_file.write("\n");
+        if( !resoult.equals("IllegalArgument") )
+        {
+            pw.println(tmp);
+        }
         pw.close();
     }
 
