@@ -15,13 +15,10 @@ public class Logic {
     }
 
 
-    public String convert(Convert  en, String number){
+    public String convert(Convert operationNumber, String number){
         String result;
 
-
-        //Convert t = Convert.valueOf()[en];
-
-        switch (en) {
+        switch (operationNumber) {
             case fromUrnfieldToArabic:
                 UrnfieldNumber fromUrnfie =  new UrnfieldNumber();
                 try {
@@ -63,11 +60,9 @@ public class Logic {
                 break;
 
             default:
-                result = "Convert " + en;
+                result = "Convert " + operationNumber;
         }
         return result;
     }
-
-  //return result;
 
 }

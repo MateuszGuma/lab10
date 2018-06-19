@@ -110,15 +110,10 @@ public class InterfacePanel extends JPanel {
 
 
     class InsertAction implements ActionListener {
-        ActionEvent  action;
 
         JTextField display;
         JTextField display_res;
-        String s1;
-        String s2;
         Logic.Convert operationNumber;
-
-
 
         //InsertAction(Object   source, JTextField display,  JTextField display_res){
         InsertAction( JTextField display,  JTextField display_res, Logic.Convert operationNumber){
@@ -132,7 +127,7 @@ public class InterfacePanel extends JPanel {
         public void actionPerformed(ActionEvent e)  {
 
             Logic l = new Logic();
-            display.setText(l.convert(operationNumber,display.getText()));
+            display_res.setText(l.convert(operationNumber,display.getText()));
         }
     }
 
