@@ -78,7 +78,11 @@ public class Logic {
         return result;
     }
 
-
+    public String history()
+            //Return last 5 operations from history
+    {
+        return saver.history();
+    }
 
 
 

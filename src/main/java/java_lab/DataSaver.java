@@ -1,11 +1,8 @@
 package java_lab;
 
-
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class DataSaver {
     FileWriter save_to_file = null;
@@ -18,10 +15,10 @@ public class DataSaver {
     DataSaver()
     {
         file = new File(file_path);
-        list = new ArrayList<>();
+        list = new ArrayList<String>();
     }
 
-    void data_save (String number, String resoult) throws IOException
+    public void data_save (String number, String resoult) throws IOException
     {
         String tmp;
         save_to_file = new FileWriter(file,true);
@@ -37,13 +34,30 @@ public class DataSaver {
         pw.close();
     }
 
-    void data_load() throws FileNotFoundException
+    public void data_load() throws IOException
     {
-        //load_from_file = new File(file_path);
-        //Scanner in = new Scanner(load_from_file);
-
-        //String zdanie = in.nextLine();
-        //System.out.println(zdanie);
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                list.add(line);
+            }
+        }
     }
 
+    public String history()
+    {
+        String tmp = "";
+
+        try{
+            this.data_load();
+        }catch (IOException e)
+        {
+        }
+
+        for(int i = list.size()-1; i > list.size() - 6; i --)
+        {
+            tmp = tmp + list.get(i)+"\n";
+        }
+        return tmp;
+    }
 }
