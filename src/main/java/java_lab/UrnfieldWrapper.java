@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class UrnfieldWrapper {
     String wrapped_data;
-    Pattern patern = Pattern.compile("^((\\/*\\\\{1,})|(\\/{1,}\\\\*))$");
+    Pattern patern = Pattern.compile("^(\\/{0,4})(\\\\{0,5})$");
 
     UrnfieldWrapper(String zn)
     {
